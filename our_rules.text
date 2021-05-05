@@ -1,0 +1,9 @@
+KISS DRY YAGNI
+1. "Keep it simple" - KIS
+Simplicity should be a key goal in design, and unnecessary complexity should be avoided.
+
+2. "Don't repeat yourself" - DRY
+Aimed at reducing repetition of software patterns (Refactor your code).
+
+3. "You aren't gonna need it" - YAGNI
+Don't add functionality until it’s deemed necessary.

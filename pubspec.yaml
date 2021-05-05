@@ -1,0 +1,89 @@
+name: hacker_news
+description: Hacker News App.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0" # null-safe
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # TOOLKIT:
+  cupertino_icons: ^1.0.2 # IOS icons
+  font_awesome_flutter: ^9.0.0 # regular icons
+  # line_awesome_flutter: ^1.0.1  # thin icons
+  google_fonts: ^2.0.0 # 1100+ fonts from Google (Internet access)
+
+  # RESPONSIVE UI:
+  device_preview: ^0.7.1 # how your app looks and performs on other devices
+  flutter_screenutil: ^5.0.0 # adapting screen and font size
+
+  # STATE MANAGEMENT:
+  hooks_riverpod: ^0.14.0+2 # riverpod with hooks from Remi Rousselet
+  flutter_hooks: ^0.16.0  # additional hooks' functionality
+
+  # NETWORKING:
+  dio: ^4.0.0 # http client
+  json_annotation: ^4.0.0 # annotations used by json_serializable
+
+  # LOCAL STORAGE:
+  isar: ^0.4.0 # fast cross platform database for Flutter & Web Apps
+
+  # INTERNATIONALIZATION:
+  intl: ^0.17.0
+
+  # TESTING:
+  mockito: ^5.0.5
+
+  # FIREBASE: 
+  firebase_core: ^1.0.4 # enabling connecting to multiple Firebase apps
+  firebase_auth: ^1.1.1 # enabling Android and iOS authentication
+  cloud_firestore: ^1.0.6 # cloud-hosted, noSQL database with live synchronization and offline support
+
+  # OTHER:
+  freezed_annotation: ^0.14.1 # Annotations for the freezed
+
+# In short, dev dependencies are dependencies that are not included 
+# in our app source code—they are only used in the development environment.
+dev_dependencies:
+  # TESTING:
+  # flutter_test:  # incompatible with [test]
+  #   sdk: flutter
+  test: ^1.16.8
+
+  # RULES:
+  lint: ^1.5.3
+
+  # AUTOGEN:
+  freezed: ^0.14.1+3 # generation for immutable classes that has a simple syntax/API
+  build_runner: ^2.0.1 # generating files using Dart code
+  json_serializable: ^4.1.1 # dart build system builders for handling JSON
+
+flutter:
+  uses-material-design: true
+
+  # ADD FONT EXAMPLE:
+  # 1. Not all fonts are working in all languages, some of them not work with Cyrillic languages suppose
+  # 2. Rebuild the app after installing a new font
+  # fonts:
+  #   # I can add as many families as I want
+  #   - family: MyFamily # can be any name
+  #     fonts:
+  #       - asset: assets/fonts/MyFamily.ttf
+  #         weight: 300   # I can specify weight from 100 to 900
+  #         style: italic # I can specify style of the font
+  #       - asset: assets/fonts/MyFamily.ttf # I can add as many assets as I want per family
+  #         weight: 400
+  
+  # ADD ASSET EXAMPLE:
+  # assets:
+  #   # make accessible the whole folder (assets) - without inner folders
+  #   - assets/
+  #   # make accessible a single file (image.png)
+  #   - assets/image.png
