@@ -5,7 +5,7 @@ part 'top_stories_state_model.freezed.dart';
 
 @freezed
 class TopStoriesStateModel with _$TopStoriesStateModel {
-  factory TopStoriesStateModel({
+  const factory TopStoriesStateModel({
     required int storiesFetched,
     required List<int> storiesIds,
     required List<StoryModel> stories,

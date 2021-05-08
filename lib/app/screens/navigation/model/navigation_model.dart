@@ -4,5 +4,5 @@ part 'navigation_model.freezed.dart';
 
 @freezed
 class NavigationModel with _$NavigationModel {
-  factory NavigationModel(int currentIndex) = _NavigationModel;
+  const factory NavigationModel(int currentIndex) = _NavigationModel;
 }
