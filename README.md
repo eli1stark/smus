@@ -22,15 +22,12 @@ My proposal is SMUS approach but I'm open for other suggestions. New ideas and c
 
 If you have any questions just create an issue and we'll discuss it.
 
-- **Credits:**
-    1. This architecture is inspired by [DDD](https://www.youtube.com/watch?v=pMuiVlnGqjk&ab_channel=Domain-DrivenDesignEurope) created by Eric Evans which was introduced to me by [ResoCoder](https://www.youtube.com/channel/UCSIvrn68cUk8CS8MbtBmBkA) in his awesome tut.
-
-        Please check [Matt's tutorial](https://resocoder.com/2020/03/09/flutter-firebase-ddd-course-1-domain-driven-design-principles/) if you want to go into origins of the SMUS architecture. 
-
-    2. It was very useful too see [BLoC](https://bloclibrary.dev/#/) architecture by [Felix Angelov](https://github.com/felangel) that was introduced to me by [Flutterly](https://www.youtube.com/channel/UC5PYcSe3to4mtm3SPCUmjvw) in his amazing [video series: "BLoC From Zero to Hero"](https://www.youtube.com/watch?v=THCkkQ-V1-8&t=3727s&ab_channel=Flutterly).
-    3. Huge thanks to Remi Rousselet's for creating such great packages like [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), [freezed](https://pub.dev/packages/freezed) and [flutter_hooks](https://pub.dev/packages/flutter_hooks).
-    4. Some principles and rules were borrowed from [Uncle Bob's](http://cleancoder.com/products) talk ["Clean Code"](https://www.youtube.com/watch?v=7EmboKQH8lM&ab_channel=UnityCoin).
-    5. Thanks to [Bill Kennedy](https://twitter.com/goinggodotnet) for his talk at the [Go Time Podcast #172 (Design Philosophy)](https://changelog.com/gotime/172).
+### Credits
+1. This architecture is inspired by [DDD](https://www.youtube.com/watch?v=pMuiVlnGqjk&ab_channel=Domain-DrivenDesignEurope) created by Eric Evans which was introduced to me by [ResoCoder](https://www.youtube.com/channel/UCSIvrn68cUk8CS8MbtBmBkA) in his awesome tut.
+2. It was very useful too see [BLoC](https://bloclibrary.dev/#/) architecture by [Felix Angelov](https://github.com/felangel) that was introduced to me by [Flutterly](https://www.youtube.com/channel/UC5PYcSe3to4mtm3SPCUmjvw) in his amazing [video series: "BLoC From Zero to Hero"](https://www.youtube.com/watch?v=THCkkQ-V1-8&t=3727s&ab_channel=Flutterly).
+3. Huge thanks to Remi Rousselet's for creating such great packages like [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), [freezed](https://pub.dev/packages/freezed) and [flutter_hooks](https://pub.dev/packages/flutter_hooks).
+4. Some principles and rules were borrowed from [Uncle Bob's](http://cleancoder.com/products) talk ["Clean Code"](https://www.youtube.com/watch?v=7EmboKQH8lM&ab_channel=UnityCoin).
+5. Thanks to [Bill Kennedy](https://twitter.com/goinggodotnet) for his talk at the [Go Time Podcast #172 (Design Philosophy)](https://changelog.com/gotime/172).
 
 # Architecture layers
 
@@ -88,9 +85,9 @@ Notice that we are using `const` constructors everywhere where possible (Rule #2
 
 And all parameters of the model must be `final` (Rule #3), derived from Rule #1.
 
-- Which template is better to use?
+**Which template is better to use?**
 
-    The rule of thumb: Start from `immutable` class and then if you need additional features use `freezed` class. **YAGNI**
+The rule of thumb: Start from `immutable` class and then if you need additional features use `freezed` class. **YAGNI**
 
 ## Source
 
@@ -133,29 +130,23 @@ We can also perform some finishing touches on the data like sorting, parsing and
 
 ## State
 
-This layer is responsible for state management in the app.
+This layer is responsible for state management in the app. It directly works with Repository, Model and UI layer.
 
-It directly works with Repository, Model and UI layer.
-
-Since I want this architecture to be universal.
-
-Implementation details of this layer may differ and will depend on state management approach you will choose.
+Since I want this architecture to be universal implementation details of this layer may differ and will depend on state management approach you will choose.
 
 I will show you my approach using Riverpod.
 
 State is divided into 3 sublayers:
 
-1. Notifiers - managing actual state of the app by using `StateNotifier` from Riverpod.
-2. Providers - providing notifiers and other data.
-3. Repositories - providing repositories (from source layer), also can perform some operations with them. 
+1. **Notifiers** - managing actual state of the app by using `StateNotifier` from Riverpod.
+2. **Providers** - providing notifiers and other data.
+3. **Repositories** - providing repositories (from source layer), also can perform some operations with them. Repositories can be either `FutureProvider` or `StreamProvider` .
 
-    Repositories can be either `FutureProvider` or `StreamProvider` .
-
-Rules:
+#### Rules:
 
 1. We are not using `ChangeNotifier` because it's not immutable.
 
-Conventions:
+#### Conventions:
 
 ```dart
 final homeProvider = Provider<int>((ref) {
@@ -163,26 +154,18 @@ final homeProvider = Provider<int>((ref) {
 });
 ```
 
-In the specific example above you can think that there is no point to use short naming but when our application grows we need to name our providers as much descriptive as we can and sometimes the name of variables can become too long which is not good for eye and usage, like this: deletedInformationOfPostStateNotifierProvider.
+In the specific example above you can think that there is no point to use short naming but when our application grows we need to name our providers as much descriptive as we can and sometimes the name of variables can become too long which is not good for eye and usage, like this: `deletedInformationOfPostStateNotifierProvider`.
 So, the suggestion is to use short convention naming for our state layer:
-
-Pod = Provider
-
-Rep = Repository
-
-Notifier = StateNotifier, we are dropping "State" part since we are not using ChangeNotifier and ValueNotifier. 
-
-So, we have the following naming for our providers:
-
-- **Repositories**
-    1. Frep = FutureRepository
-    2. Srep = StreamRepository
-- **Providers**
-    1. Pod = Provider
-    2. Fpod = FutureProvider
-    3. Spod = StreamProvider
-    4. Stpod = StateProvider
-    5. Notipod = StateNotifierProvider
+- **Repositories:**
+    - **Frep** = FutureRepository
+    - **Srep** = StreamRepository
+- **Providers:**
+    - **Pod** = Provider
+    - **Fpod** = FutureProvider
+    - **Spod** = StreamProvider
+    - **Stpod** = StateProvider
+    - **Notipod** = StateNotifierProvider
+- **Notifier** = StateNotifier, we are dropping "State" part since we aren't using `ChangeNotifier` and `ValueNotifier`.
 
 ## UI
 
@@ -536,7 +519,7 @@ See `.gitignore` file.
 
 ## VSCode snippets
 
-Snippets are available in the VSCode plugin - SMUS Snippets.
+Snippets are available in the VSCode plugin - [SMUS Snippets](https://marketplace.visualstudio.com/items?itemName=EliStark.smus-snippets).
 
 ### Model
 
@@ -550,7 +533,7 @@ Snippets are available in the VSCode plugin - SMUS Snippets.
 2. `toJson` - creates `toJson()` function for json_serializable
 3. `fromModel` - creates `fromModel()` factory
 4. `toModel` - creates `toModel()` function
-5. `dto` - creates DTO class with all boilerplate needed - imports, parts, fromJson, toJson, fromModel, toModel.
+5. `dto` - creates DTO class with all boilerplate needed - imports, parts, `fromJson()`, `toJson()`, `fromModel()`, `toModel()`.
 6. `repo` - creates repository function with all needed boilerplate
 7. `gpart` - creates generated part for `json_serializable`
 
@@ -567,9 +550,7 @@ Snippets are available in the VSCode plugin - SMUS Snippets.
 
 ## VSCode themes
 
-1. Folders
-
-    If you want the same folder layout as in the screenshots, install [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme) plugin and write the following code inside your VSCode's `settings.json` file:
+1. If you want the same folder layout as in the screenshots, install [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme) plugin and write the following code inside your VSCode's `settings.json` file:
 
     ```dart
     "material-icon-theme.folders.associations": {
