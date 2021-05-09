@@ -22,15 +22,12 @@ My proposal is SMUS approach but I'm open for other suggestions. New ideas and c
 
 If you have any questions just create an issue and we'll discuss it.
 
-- **Credits:**
-    1. This architecture is inspired by [DDD](https://www.youtube.com/watch?v=pMuiVlnGqjk&ab_channel=Domain-DrivenDesignEurope) created by Eric Evans which was introduced to me by [ResoCoder](https://www.youtube.com/channel/UCSIvrn68cUk8CS8MbtBmBkA) in his awesome tut.
-
-        Please check [Matt's tutorial](https://resocoder.com/2020/03/09/flutter-firebase-ddd-course-1-domain-driven-design-principles/) if you want to go into origins of the SMUS architecture. 
-
-    2. It was very useful too see [BLoC](https://bloclibrary.dev/#/) architecture by [Felix Angelov](https://github.com/felangel) that was introduced to me by [Flutterly](https://www.youtube.com/channel/UC5PYcSe3to4mtm3SPCUmjvw) in his amazing [video series: "BLoC From Zero to Hero"](https://www.youtube.com/watch?v=THCkkQ-V1-8&t=3727s&ab_channel=Flutterly).
-    3. Huge thanks to Remi Rousselet's for creating such great packages like [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), [freezed](https://pub.dev/packages/freezed) and [flutter_hooks](https://pub.dev/packages/flutter_hooks).
-    4. Some principles and rules were borrowed from [Uncle Bob's](http://cleancoder.com/products) talk ["Clean Code"](https://www.youtube.com/watch?v=7EmboKQH8lM&ab_channel=UnityCoin).
-    5. Thanks to [Bill Kennedy](https://twitter.com/goinggodotnet) for his talk at the [Go Time Podcast #172 (Design Philosophy)](https://changelog.com/gotime/172).
+### Credits
+1. This architecture is inspired by [DDD](https://www.youtube.com/watch?v=pMuiVlnGqjk&ab_channel=Domain-DrivenDesignEurope) created by Eric Evans which was introduced to me by [ResoCoder](https://www.youtube.com/channel/UCSIvrn68cUk8CS8MbtBmBkA) in his awesome tut.
+2. It was very useful too see [BLoC](https://bloclibrary.dev/#/) architecture by [Felix Angelov](https://github.com/felangel) that was introduced to me by [Flutterly](https://www.youtube.com/channel/UC5PYcSe3to4mtm3SPCUmjvw) in his amazing [video series: "BLoC From Zero to Hero"](https://www.youtube.com/watch?v=THCkkQ-V1-8&t=3727s&ab_channel=Flutterly).
+3. Huge thanks to Remi Rousselet's for creating such great packages like [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), [freezed](https://pub.dev/packages/freezed) and [flutter_hooks](https://pub.dev/packages/flutter_hooks).
+4. Some principles and rules were borrowed from [Uncle Bob's](http://cleancoder.com/products) talk ["Clean Code"](https://www.youtube.com/watch?v=7EmboKQH8lM&ab_channel=UnityCoin).
+5. Thanks to [Bill Kennedy](https://twitter.com/goinggodotnet) for his talk at the [Go Time Podcast #172 (Design Philosophy)](https://changelog.com/gotime/172).
 
 # Architecture layers
 
@@ -88,9 +85,9 @@ Notice that we are using `const` constructors everywhere where possible (Rule #2
 
 And all parameters of the model must be `final` (Rule #3), derived from Rule #1.
 
-- Which template is better to use?
+**Which template is better to use?**
 
-    The rule of thumb: Start from `immutable` class and then if you need additional features use `freezed` class. **YAGNI**
+The rule of thumb: Start from `immutable` class and then if you need additional features use `freezed` class. **YAGNI**
 
 ## Source
 
@@ -133,29 +130,23 @@ We can also perform some finishing touches on the data like sorting, parsing and
 
 ## State
 
-This layer is responsible for state management in the app.
+This layer is responsible for state management in the app. It directly works with Repository, Model and UI layer.
 
-It directly works with Repository, Model and UI layer.
-
-Since I want this architecture to be universal.
-
-Implementation details of this layer may differ and will depend on state management approach you will choose.
+Since I want this architecture to be universal implementation details of this layer may differ and will depend on state management approach you will choose.
 
 I will show you my approach using Riverpod.
 
 State is divided into 3 sublayers:
 
-1. Notifiers - managing actual state of the app by using `StateNotifier` from Riverpod.
-2. Providers - providing notifiers and other data.
-3. Repositories - providing repositories (from source layer), also can perform some operations with them. 
+1. **Notifiers** - managing actual state of the app by using `StateNotifier` from Riverpod.
+2. **Providers** - providing notifiers and other data.
+3. **Repositories** - providing repositories (from source layer), also can perform some operations with them. Repositories can be either `FutureProvider` or `StreamProvider` .
 
-    Repositories can be either `FutureProvider` or `StreamProvider` .
-
-Rules:
+#### Rules:
 
 1. We are not using `ChangeNotifier` because it's not immutable.
 
-Conventions:
+#### Conventions:
 
 ```dart
 final homeProvider = Provider<int>((ref) {
@@ -163,26 +154,18 @@ final homeProvider = Provider<int>((ref) {
 });
 ```
 
-In the specific example above you can think that there is no point to use short naming but when our application grows we need to name our providers as much descriptive as we can and sometimes the name of variables can become too long which is not good for eye and usage, like this: deletedInformationOfPostStateNotifierProvider.
+In the specific example above you can think that there is no point to use short naming but when our application grows we need to name our providers as much descriptive as we can and sometimes the name of variables can become too long which is not good for eye and usage, like this: `deletedInformationOfPostStateNotifierProvider`.
 So, the suggestion is to use short convention naming for our state layer:
-
-Pod = Provider
-
-Rep = Repository
-
-Notifier = StateNotifier, we are dropping "State" part since we are not using ChangeNotifier and ValueNotifier. 
-
-So, we have the following naming for our providers:
-
-- **Repositories**
-    1. Frep = FutureRepository
-    2. Srep = StreamRepository
-- **Providers**
-    1. Pod = Provider
-    2. Fpod = FutureProvider
-    3. Spod = StreamProvider
-    4. Stpod = StateProvider
-    5. Notipod = StateNotifierProvider
+- **Repositories:**
+    - **Frep** = FutureRepository
+    - **Srep** = StreamRepository
+- **Providers:**
+    - **Pod** = Provider
+    - **Fpod** = FutureProvider
+    - **Spod** = StreamProvider
+    - **Stpod** = StateProvider
+    - **Notipod** = StateNotifierProvider
+- **Notifier** = StateNotifier, we are dropping "State" part since we aren't using `ChangeNotifier` and `ValueNotifier`.
 
 ## UI
 
@@ -196,184 +179,278 @@ So, why don't we just follow tree-like organizational structure for our widgets 
 
 We will also use power of Flutter's composition.
 
-Example 1:
+**Example:**
 
-- Code
+<details>
+  <summary>Code</summary>
+    
+```dart
+// Path ui/my_screen.dart
+class MyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenText(),
+        MyScreenButton(),
+        MyScreenDescription(),
+      ],
+    );
+  }
+}
 
-    ```dart
-    // Path UI/my_screen.dart
-    class MyScreen extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenText(),
-            MyScreenButton(),
-            MyScreenDescription(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_text.dart
+class MyScreenText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_text.dart
-    class MyScreenText extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_button.dart
+class MyScreenButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_button.dart
-    class MyScreenButton extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_description/my_screen_description.dart
+class MyScreenDescription extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenDescriptionImage(),
+        MyScreenDesciptionCard(),
+      ],
+    );
+  }
+}
 
-    // Path UI/components/my_screen_description/my_screen_description.dart
-    class MyScreenDescription extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenDescriptionImage(),
-            MyScreenDesciptionCard(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_description/components/my_screen_description_image.dart
+class MyScreenDescriptionImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_description/components/my_screen_description_image.dart
-    class MyScreenDescriptionImage extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_description/components/my_screen_description_card.dart
+class MyScreenDesciptionCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_description/components/my_screen_description_card.dart
-    class MyScreenDesciptionCard extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+//! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
+```
+    
+</details>
 
-    //! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
-    ```
+<details>
+  <summary>Folder structure</summary>
+    
+    .
+    ├── ...
+    ├── ui                      
+    │   ├── components
+    │   │   ├── my_screen_description 
+    |   |   |   ├── components
+    |   |   |   |   ├── my_screen_description_card.dart
+    |   |   |   |   └── my_screen_description_image.dart
+    |   |   |   └── my_screen_description.dart
+    │   │   ├── my_screen_button.dart
+    |   |   └── my_screen_text.dart
+    │   └── my_screen.dart        
+    └── ...
 
-- Folder structure
+</details>
 
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled.png](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled.png)
+Now imagine that we need to use `MyScreenDesciptionCard()` also in the `MyScreen()`.
 
-Imagine now that we need to use `MyScreenDesciptionCard()` also in the `MyScreen()`.
-
-By having tree-like structure we can easily refactor our code, so we can lift `MyScreenDesciptionCard()` one level up.
+By having tree-like structure we can easily refactor our code, so we can lift `MyScreenDesciptionCard()` by one level up.
 
 Since the level of the widget is increased we need to give it a new name and rename the file because the previous name doesn't make sense anymore.
 
 The good name will be `MyScreenCard()` since it placed on the same level as other widgets of `MyScreen()`.
 
-Now we have:
+So, we have:
 
-- Code
+<details>
+  <summary>Code</summary>
+    
+```dart
+// Path ui/my_screen.dart
+class MyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenText(),
+        MyScreenButton(),
+        MyScreenDescription(),
+      ],
+    );
+  }
+}
 
-    ```dart
-    // Path UI/my_screen.dart
-    class MyScreen extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenText(),
-            MyScreenButton(),
-            MyScreenDescription(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_text.dart
+class MyScreenText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_text.dart
-    class MyScreenText extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_button.dart
+class MyScreenButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_button.dart
-    class MyScreenButton extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_card.dart
+class MyScreenCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_card.dart
-    class MyScreenCard extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_description/my_screen_description.dart
+class MyScreenDescription extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenDescriptionImage(),
+      ],
+    );
+  }
+}
 
-    // Path UI/components/my_screen_description/my_screen_description.dart
-    class MyScreenDescription extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenDescriptionImage(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_description/components/my_screen_description_image.dart
+class MyScreenDescriptionImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_description/components/my_screen_description_image.dart
-    class MyScreenDescriptionImage extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+//! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
+```
+   
+</details>
 
-    //! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
-    ```
+<details>
+  <summary>Folder structure</summary>
+    
+    .
+    ├── ...
+    ├── ui                      
+    │   ├── components
+    │   │   ├── my_screen_description 
+    |   |   |   ├── components
+    |   |   |   |   └── my_screen_description_image.dart
+    |   |   |   └── my_screen_description.dart
+    │   │   ├── my_screen_button.dart
+    |   |   ├── my_screen_card.dart
+    |   |   └── my_screen_text.dart
+    │   └── my_screen.dart        
+    └── ...
 
-- Folder Structure
-
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%201.png](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%201.png)
+</details>
 
 # Illustrations
 
-- Dependency illustration
+- **Dependency illustration**
+      
+   <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/smus_dependency.svg" width="320">
 
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(2).svg](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(2).svg)
+   Arrows illustrate dependency. For example, UI is dependent on the State and Model. 
 
-    Arrows illustrate dependency. For example, UI is dependent on State and Model. 
-
-- Data flows
+- **Data flows**
 
     We have 2 general bidirectional flows in the application
 
-    - User → API → User (External flow)
+    - **User → API → User (External flow)**
+        
+      <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/smus_flow1.svg" height="300">
 
-        ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(8).svg](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(8).svg)
+    - **User → Model → User (Internal flow)**
 
-    - User → Model → User (Internal flow)
+      <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/smus_flow2.svg" height="140">
 
-        ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(9).svg](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(9).svg)
 
-# Folder Structure
+# Folder Structure Convention
 
-- Folder Structure of the single feature
+- Folder Structure of a single feature
+    
+        .
+        ├── ...
+        ├── feature                      
+        │   ├── model
+        |   |   ├── some_model.dart
+        |   |   └── some_other_model.dart
+        │   ├── source
+        |   |   ├── dto
+        |   |   |   ├── some_dto.dart
+        |   |   |   └── some_other_dto.dart  
+        |   |   ├── repository
+        |   |   |   ├── repositories
+        |   |   |   |   ├── some_repository.dart
+        |   |   |   |   └── some_other_repository.dart  
+        |   |   |   └── feature_repository.dart  # acts like facade for other repositories
+        |   |   └── service
+        |   |       ├── services
+        |   |       |   ├── some_service.dart
+        |   |       |   └── some_other_service.dart  
+        |   |       └── feature_service.dart  # acts like facade for other services
+        |   ├── state
+        |   |   ├── notifiers
+        |   |   |   ├── some_notifier.dart
+        |   |   |   └── some_other_notifier.dart  
+        |   |   ├── providers
+        |   |   |   ├── some_fpod.dart 
+        |   |   |   ├── some_notipod.dart 
+        |   |   |   ├── some_pod.dart 
+        |   |   |   ├── some_spod.dart 
+        |   |   |   └── some_stpod.dart  
+        |   |   └── repositories
+        |   |       ├── some_frep.dart 
+        |   |       └── some_srep.dart 
+        |   └── ui
+        |       ├── components
+        |       |   ├── some_complex_component
+        |       |   |   ├── components
+        |       |   |   |   ├── some_part.dart
+        |       |   |   |   └── some_other_part.dart
+        |       |   |   └── some_complex_component.dart
+        |       |   ├── some_button.dart
+        |       |   └── some_text.dart
+        |       └── feature.dart  
+        └── ...
+        
 
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%202.png](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%202.png)
+    <details>
+     <summary>VSCode illustration</summary>
+    
+     ![illustration](https://github.com/eli1stark/smus/blob/master/readme_assets/folder_structure.png)
 
-    I listed all possible providers and repositories for illustration.
+    </details>
 
-    You don't have to use all of them if you don't need.
+
+    * I listed all possible providers and repositories for illustration. You don't have to use all of them if you don't need.
+    * All endings in the model, source and state layers are conventions. (e.g. _model, _dto, _fpod and so on.)
+    * Naming of core folders is constant (e.g. ui, source, dto, service, services, notifiers(in case you are using riverpod) and so on.
+    * In the UI layer conventions are following:
+        1. Every feature and subfeature must have folder called components and dart file named by feature's name.
+           In our case we have subfeature(complex component) called "some_complex_component" which has folder components and dart file named by itself.
+           Single dart file is considered as component. (e.g. some_part.dart)
+        2. Naming of components is up to you.
 
 # Rules
 
@@ -381,9 +458,7 @@ Now we have:
 2. Always use const constructors where possible.
 3. All parameters must be `final`.
 
-# Conventions
-
-## Naming
+## Naming conventions
 
 Naming is very important part of every architecture.
 
@@ -413,61 +488,17 @@ class HomeNotifier extends StateNotifier<HomeModel> {}
 
 The naming above is strict and shouldn't be violated.
 
-**General:**
+### General
 
 1. Name of the **file** must have **snake_case**
 2. Name of the **object** must have **camelCase**
 
-## Other
-
-1. Use linting in your application.
 
 # Linting
 
-For linting we are using [lint](https://pub.dev/packages/lint) package with our modifications.
+For linting we are using [lint](https://pub.dev/packages/lint) package with our own modifications.
 
-- analysis_options.yaml
-
-    ```yaml
-    include: package:lint/analysis_options.yaml
-
-    linter:
-      # disable or enable specific rules
-      rules:
-        # Make constructors the first thing in every class
-        sort_constructors_first: true
-        sort_pub_dependencies: false
-        # conflicts with `prefer_relative_imports`
-        avoid_relative_lib_imports: false
-        # MUST NOT apply to packages from pub.dev
-        prefer_relative_imports: true
-        prefer_single_quotes: true
-        omit_local_variable_types: true
-        unawaited_futures: true
-        
-        # experimental
-        # require_trailing_comma: true
-        # experimental
-        # avoid_dynamic_calls: true
-
-    analyzer:
-      # autogenerated files
-      exclude:
-        - "**/*.g.dart"
-        - "**/*.freezed.dart"
-      
-      # possible options:
-      # ignore, info, warning, error
-      errors:
-        must_be_immutable: error
-        missing_required_param: error
-        missing_return: error
-        avoid_void_async: error
-        invalid_use_of_protected_member: error    
-        unawaited_futures: error
-        avoid_unnecessary_containers: warning
-        parameter_assignments: warning
-    ```
+See  `analysis_options.yaml` file.
 
 # Tests
 
@@ -484,17 +515,8 @@ See `.gitignore` file.
 # Philosophies
 
 1. "Keep it simple" - **KIS**
-
-    Simplicity should be a key goal in design, and unnecessary complexity should be avoided.
-
 2. "Don't repeat yourself" - **DRY**
-
-    Aimed at reducing repetition of software patterns (Refactor your code).
-
 3. "You are not gonna need it" - **YAGNI**
-
-    Don't add functionality until it’s deemed necessary.
-
 4. We don’t make things easy to do, we make things easy to understand.  [5 - Bill Kennedy]
 5. You write things in the concrete first, then you ask: "Does that require an abstraction layer?” [5]
 6. Don't do something for the sake of doing it. [5]
@@ -536,7 +558,7 @@ See `.gitignore` file.
 
 ## VSCode snippets
 
-Snippets are available in the VSCode plugin - SMUS Snippets.
+Snippets are available in the VSCode plugin - [SMUS Snippets](https://marketplace.visualstudio.com/items?itemName=EliStark.smus-snippets).
 
 ### Model
 
@@ -550,7 +572,7 @@ Snippets are available in the VSCode plugin - SMUS Snippets.
 2. `toJson` - creates `toJson()` function for json_serializable
 3. `fromModel` - creates `fromModel()` factory
 4. `toModel` - creates `toModel()` function
-5. `dto` - creates DTO class with all boilerplate needed - imports, parts, fromJson, toJson, fromModel, toModel.
+5. `dto` - creates DTO class with all boilerplate needed - imports, parts, `fromJson()`, `toJson()`, `fromModel()`, `toModel()`.
 6. `repo` - creates repository function with all needed boilerplate
 7. `gpart` - creates generated part for `json_serializable`
 
@@ -567,9 +589,7 @@ Snippets are available in the VSCode plugin - SMUS Snippets.
 
 ## VSCode themes
 
-1. Folders
-
-    If you want the same folder layout as in the screenshots, install [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme) plugin and write the following code inside your VSCode's `settings.json` file:
+1. If you want the same folder layout as in the screenshots, install [Material Icon Theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme) plugin and write the following code inside your VSCode's `settings.json` file:
 
     ```dart
     "material-icon-theme.folders.associations": {
