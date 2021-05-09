@@ -22,13 +22,6 @@ My proposal is SMUS approach but I'm open for other suggestions. New ideas and c
 
 If you have any questions just create an issue and we'll discuss it.
 
-### Credits
-1. This architecture is inspired by [DDD](https://www.youtube.com/watch?v=pMuiVlnGqjk&ab_channel=Domain-DrivenDesignEurope) created by Eric Evans which was introduced to me by [ResoCoder](https://www.youtube.com/channel/UCSIvrn68cUk8CS8MbtBmBkA) in his awesome tut.
-2. It was very useful too see [BLoC](https://bloclibrary.dev/#/) architecture by [Felix Angelov](https://github.com/felangel) that was introduced to me by [Flutterly](https://www.youtube.com/channel/UC5PYcSe3to4mtm3SPCUmjvw) in his amazing [video series: "BLoC From Zero to Hero"](https://www.youtube.com/watch?v=THCkkQ-V1-8&t=3727s&ab_channel=Flutterly).
-3. Huge thanks to Remi Rousselet's for creating such great packages like [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), [freezed](https://pub.dev/packages/freezed) and [flutter_hooks](https://pub.dev/packages/flutter_hooks).
-4. Some principles and rules were borrowed from [Uncle Bob's](http://cleancoder.com/products) talk ["Clean Code"](https://www.youtube.com/watch?v=7EmboKQH8lM&ab_channel=UnityCoin).
-5. Thanks to [Bill Kennedy](https://twitter.com/goinggodotnet) for his talk at the [Go Time Podcast #172 (Design Philosophy)](https://changelog.com/gotime/172).
-
 # Architecture layers
 
 ## Model
@@ -157,15 +150,15 @@ final homeProvider = Provider<int>((ref) {
 In the specific example above you can think that there is no point to use short naming but when our application grows we need to name our providers as much descriptive as we can and sometimes the name of variables can become too long which is not good for eye and usage, like this: `deletedInformationOfPostStateNotifierProvider`.
 So, the suggestion is to use short convention naming for our state layer:
 - **Repositories:**
-    - **Frep** = FutureRepository
-    - **Srep** = StreamRepository
+    - **Frep** = `FutureRepository`
+    - **Srep** = `StreamRepository`
 - **Providers:**
-    - **Pod** = Provider
-    - **Fpod** = FutureProvider
-    - **Spod** = StreamProvider
-    - **Stpod** = StateProvider
-    - **Notipod** = StateNotifierProvider
-- **Notifier** = StateNotifier, we are dropping "State" part since we aren't using `ChangeNotifier` and `ValueNotifier`.
+    - **Pod** = `Provider`
+    - **Fpod** = `FutureProvider`
+    - **Spod** = `StreamProvider`
+    - **Stpod** = `StateProvider`
+    - **Notipod** = `StateNotifierProvider`
+- **Notifier** = `StateNotifier`, we are dropping "State" part since we aren't using `ChangeNotifier` and `ValueNotifier`.
 
 ## UI
 
@@ -438,18 +431,18 @@ class MyScreenDescriptionImage extends StatelessWidget {
     <details>
      <summary>VSCode illustration</summary>
     
-     ![illustration](https://github.com/eli1stark/smus/blob/master/readme_assets/folder_structure.png)
+     ![illustration](https://github.com/eli1stark/smus/blob/master/readme_assets/feature_folder_structure.png)
 
     </details>
 
 
     * I listed all possible providers and repositories for illustration. You don't have to use all of them if you don't need.
-    * All endings in the model, source and state layers are conventions. (e.g. _model, _dto, _fpod and so on.)
-    * Naming of core folders is constant (e.g. ui, source, dto, service, services, notifiers(in case you are using riverpod) and so on.
-    * In the UI layer conventions are following:
-        1. Every feature and subfeature must have folder called components and dart file named by feature's name.
-           In our case we have subfeature(complex component) called "some_complex_component" which has folder components and dart file named by itself.
-           Single dart file is considered as component. (e.g. some_part.dart)
+    * All endings in the `model`, `source` and `state` layers are conventions. (e.g. `_model`, `_dto`, `_fpod` and so on.)
+    * Naming of core folders is constant (e.g. `ui`, `source`, `dto`, `service`, `services`, `notifiers`(in case you are using riverpod) and so on.)
+    * In the `ui` layer conventions are following:
+        1. Every feature and subfeature must have folder called `components` and dart file named by feature's name.
+           In our case we have subfeature(complex component) called "some_complex_component" which has folder `components` and dart file named by itself.
+           Single dart file is considered as component. (e.g. `some_part.dart`)
         2. Naming of components is up to you.
 
 # Rules
@@ -603,3 +596,10 @@ Snippets are available in the VSCode plugin - [SMUS Snippets](https://marketplac
         "state": "react-components",
     },
     ```
+   
+# Credits
+1. This architecture is inspired by [DDD](https://www.youtube.com/watch?v=pMuiVlnGqjk&ab_channel=Domain-DrivenDesignEurope) created by Eric Evans which was introduced to me by [ResoCoder](https://www.youtube.com/channel/UCSIvrn68cUk8CS8MbtBmBkA) in his awesome tut.
+2. It was very useful too see [BLoC](https://bloclibrary.dev/#/) architecture by [Felix Angelov](https://github.com/felangel) that was introduced to me by [Flutterly](https://www.youtube.com/channel/UC5PYcSe3to4mtm3SPCUmjvw) in his amazing [video series: "BLoC From Zero to Hero"](https://www.youtube.com/watch?v=THCkkQ-V1-8&t=3727s&ab_channel=Flutterly).
+3. Huge thanks to Remi Rousselet's for creating such great packages like [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), [freezed](https://pub.dev/packages/freezed) and [flutter_hooks](https://pub.dev/packages/flutter_hooks).
+4. Some principles and rules were borrowed from [Uncle Bob's](http://cleancoder.com/products) talk ["Clean Code"](https://www.youtube.com/watch?v=7EmboKQH8lM&ab_channel=UnityCoin).
+5. Thanks to [Bill Kennedy](https://twitter.com/goinggodotnet) for his talk at the [Go Time Podcast #172 (Design Philosophy)](https://changelog.com/gotime/172).
