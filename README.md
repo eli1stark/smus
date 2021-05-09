@@ -1,10 +1,15 @@
-# SMUS - Source Model UI State
+# SMUS - Flutter App Architecture
+
+<p align="center">
+  <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/logo.svg" height="280">
+</p>
+<p align="center">
+    <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/logo_desc.svg" height="80">
+</p>
 
 # Sample App
 
 **Hacker News App** which is using the following [API](https://hackernews.api-docs.io/)
-
-# Index
 
 # Motivation
 
@@ -603,3 +608,4 @@ Snippets are available in the VSCode plugin - [SMUS Snippets](https://marketplac
 3. Huge thanks to Remi Rousselet's for creating such great packages like [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), [freezed](https://pub.dev/packages/freezed) and [flutter_hooks](https://pub.dev/packages/flutter_hooks).
 4. Some principles and rules were borrowed from [Uncle Bob's](http://cleancoder.com/products) talk ["Clean Code"](https://www.youtube.com/watch?v=7EmboKQH8lM&ab_channel=UnityCoin).
 5. Thanks to [Bill Kennedy](https://twitter.com/goinggodotnet) for his talk at the [Go Time Podcast #172 (Design Philosophy)](https://changelog.com/gotime/172).
+7. Logo made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/)
