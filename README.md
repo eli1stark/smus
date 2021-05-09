@@ -179,184 +179,278 @@ So, why don't we just follow tree-like organizational structure for our widgets 
 
 We will also use power of Flutter's composition.
 
-Example 1:
+**Example:**
 
-- Code
+<details>
+  <summary>Code</summary>
+    
+```dart
+// Path ui/my_screen.dart
+class MyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenText(),
+        MyScreenButton(),
+        MyScreenDescription(),
+      ],
+    );
+  }
+}
 
-    ```dart
-    // Path UI/my_screen.dart
-    class MyScreen extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenText(),
-            MyScreenButton(),
-            MyScreenDescription(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_text.dart
+class MyScreenText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_text.dart
-    class MyScreenText extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_button.dart
+class MyScreenButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_button.dart
-    class MyScreenButton extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_description/my_screen_description.dart
+class MyScreenDescription extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenDescriptionImage(),
+        MyScreenDesciptionCard(),
+      ],
+    );
+  }
+}
 
-    // Path UI/components/my_screen_description/my_screen_description.dart
-    class MyScreenDescription extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenDescriptionImage(),
-            MyScreenDesciptionCard(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_description/components/my_screen_description_image.dart
+class MyScreenDescriptionImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_description/components/my_screen_description_image.dart
-    class MyScreenDescriptionImage extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_description/components/my_screen_description_card.dart
+class MyScreenDesciptionCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_description/components/my_screen_description_card.dart
-    class MyScreenDesciptionCard extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+//! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
+```
+    
+</details>
 
-    //! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
-    ```
+<details>
+  <summary>Folder structure</summary>
+    
+    .
+    ├── ...
+    ├── ui                      
+    │   ├── components
+    │   │   ├── my_screen_description 
+    |   |   |   ├── components
+    |   |   |   |   ├── my_screen_description_card.dart
+    |   |   |   |   └── my_screen_description_image.dart
+    |   |   |   └── my_screen_description.dart
+    │   │   ├── my_screen_button.dart
+    |   |   └── my_screen_text.dart
+    │   └── my_screen.dart        
+    └── ...
 
-- Folder structure
+</details>
 
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled.png](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled.png)
+Now imagine that we need to use `MyScreenDesciptionCard()` also in the `MyScreen()`.
 
-Imagine now that we need to use `MyScreenDesciptionCard()` also in the `MyScreen()`.
-
-By having tree-like structure we can easily refactor our code, so we can lift `MyScreenDesciptionCard()` one level up.
+By having tree-like structure we can easily refactor our code, so we can lift `MyScreenDesciptionCard()` by one level up.
 
 Since the level of the widget is increased we need to give it a new name and rename the file because the previous name doesn't make sense anymore.
 
 The good name will be `MyScreenCard()` since it placed on the same level as other widgets of `MyScreen()`.
 
-Now we have:
+So, we have:
 
-- Code
+<details>
+  <summary>Code</summary>
+    
+```dart
+// Path ui/my_screen.dart
+class MyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenText(),
+        MyScreenButton(),
+        MyScreenDescription(),
+      ],
+    );
+  }
+}
 
-    ```dart
-    // Path UI/my_screen.dart
-    class MyScreen extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenText(),
-            MyScreenButton(),
-            MyScreenDescription(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_text.dart
+class MyScreenText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_text.dart
-    class MyScreenText extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_button.dart
+class MyScreenButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_button.dart
-    class MyScreenButton extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_card.dart
+class MyScreenCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_card.dart
-    class MyScreenCard extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+// Path ui/components/my_screen_description/my_screen_description.dart
+class MyScreenDescription extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        MyScreenDescriptionImage(),
+      ],
+    );
+  }
+}
 
-    // Path UI/components/my_screen_description/my_screen_description.dart
-    class MyScreenDescription extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-        return Column(
-          children: [
-            MyScreenDescriptionImage(),
-          ],
-        );
-      }
-    }
+// Path ui/components/my_screen_description/components/my_screen_description_image.dart
+class MyScreenDescriptionImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+     // ... some code here
+  }
+}
 
-    // Path UI/components/my_screen_description/components/my_screen_description_image.dart
-    class MyScreenDescriptionImage extends StatelessWidget {
-      @override
-      Widget build(BuildContext context) {
-         // ... some code here
-      }
-    }
+//! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
+```
+   
+</details>
 
-    //! The name of the widgets can be much shorter and descriptive, I used long names for illustration purposes
-    ```
+<details>
+  <summary>Folder structure</summary>
+    
+    .
+    ├── ...
+    ├── ui                      
+    │   ├── components
+    │   │   ├── my_screen_description 
+    |   |   |   ├── components
+    |   |   |   |   └── my_screen_description_image.dart
+    |   |   |   └── my_screen_description.dart
+    │   │   ├── my_screen_button.dart
+    |   |   ├── my_screen_card.dart
+    |   |   └── my_screen_text.dart
+    │   └── my_screen.dart        
+    └── ...
 
-- Folder Structure
-
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%201.png](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%201.png)
+</details>
 
 # Illustrations
 
-- Dependency illustration
+- **Dependency illustration**
+      
+   <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/smus_dependency.svg" width="320">
 
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(2).svg](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(2).svg)
+   Arrows illustrate dependency. For example, UI is dependent on the State and Model. 
 
-    Arrows illustrate dependency. For example, UI is dependent on State and Model. 
-
-- Data flows
+- **Data flows**
 
     We have 2 general bidirectional flows in the application
 
-    - User → API → User (External flow)
+    - **User → API → User (External flow)**
+        
+      <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/smus_flow1.svg" height="300">
 
-        ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(8).svg](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(8).svg)
+    - **User → Model → User (Internal flow)**
 
-    - User → Model → User (Internal flow)
+      <img src="https://github.com/eli1stark/smus/blob/master/readme_assets/smus_flow2.svg" height="140">
 
-        ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(9).svg](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/smus_(9).svg)
 
-# Folder Structure
+# Folder Structure Convention
 
-- Folder Structure of the single feature
+- Folder Structure of a single feature
+    
+        .
+        ├── ...
+        ├── feature                      
+        │   ├── model
+        |   |   ├── some_model.dart
+        |   |   └── some_other_model.dart
+        │   ├── source
+        |   |   ├── dto
+        |   |   |   ├── some_dto.dart
+        |   |   |   └── some_other_dto.dart  
+        |   |   ├── repository
+        |   |   |   ├── repositories
+        |   |   |   |   ├── some_repository.dart
+        |   |   |   |   └── some_other_repository.dart  
+        |   |   |   └── feature_repository.dart  # acts like facade for other repositories
+        |   |   └── service
+        |   |       ├── services
+        |   |       |   ├── some_service.dart
+        |   |       |   └── some_other_service.dart  
+        |   |       └── feature_service.dart  # acts like facade for other services
+        |   ├── state
+        |   |   ├── notifiers
+        |   |   |   ├── some_notifier.dart
+        |   |   |   └── some_other_notifier.dart  
+        |   |   ├── providers
+        |   |   |   ├── some_fpod.dart 
+        |   |   |   ├── some_notipod.dart 
+        |   |   |   ├── some_pod.dart 
+        |   |   |   ├── some_spod.dart 
+        |   |   |   └── some_stpod.dart  
+        |   |   └── repositories
+        |   |       ├── some_frep.dart 
+        |   |       └── some_srep.dart 
+        |   └── ui
+        |       ├── components
+        |       |   ├── some_complex_component
+        |       |   |   ├── components
+        |       |   |   |   ├── some_part.dart
+        |       |   |   |   └── some_other_part.dart
+        |       |   |   └── some_complex_component.dart
+        |       |   ├── some_button.dart
+        |       |   └── some_text.dart
+        |       └── feature.dart  
+        └── ...
+        
 
-    ![SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%202.png](SMUS%20-%20Source%20Model%20UI%20State%202e357fdb1fc64dd6894a4132279596a2/Untitled%202.png)
+    <details>
+     <summary>VSCode illustration</summary>
+    
+     ![illustration](https://github.com/eli1stark/smus/blob/master/readme_assets/folder_structure.png)
 
-    I listed all possible providers and repositories for illustration.
+    </details>
 
-    You don't have to use all of them if you don't need.
+
+    * I listed all possible providers and repositories for illustration. You don't have to use all of them if you don't need.
+    * All endings in the model, source and state layers are conventions. (e.g. _model, _dto, _fpod and so on.)
+    * Naming of core folders is constant (e.g. ui, source, dto, service, services, notifiers(in case you are using riverpod) and so on.
+    * In the UI layer conventions are following:
+        1. Every feature and subfeature must have folder called components and dart file named by feature's name.
+           In our case we have subfeature(complex component) called "some_complex_component" which has folder components and dart file named by itself.
+           Single dart file is considered as component. (e.g. some_part.dart)
+        2. Naming of components is up to you.
 
 # Rules
 
@@ -364,9 +458,7 @@ Now we have:
 2. Always use const constructors where possible.
 3. All parameters must be `final`.
 
-# Conventions
-
-## Naming
+## Naming conventions
 
 Naming is very important part of every architecture.
 
@@ -396,61 +488,17 @@ class HomeNotifier extends StateNotifier<HomeModel> {}
 
 The naming above is strict and shouldn't be violated.
 
-**General:**
+### General
 
 1. Name of the **file** must have **snake_case**
 2. Name of the **object** must have **camelCase**
 
-## Other
-
-1. Use linting in your application.
 
 # Linting
 
-For linting we are using [lint](https://pub.dev/packages/lint) package with our modifications.
+For linting we are using [lint](https://pub.dev/packages/lint) package with our own modifications.
 
-- analysis_options.yaml
-
-    ```yaml
-    include: package:lint/analysis_options.yaml
-
-    linter:
-      # disable or enable specific rules
-      rules:
-        # Make constructors the first thing in every class
-        sort_constructors_first: true
-        sort_pub_dependencies: false
-        # conflicts with `prefer_relative_imports`
-        avoid_relative_lib_imports: false
-        # MUST NOT apply to packages from pub.dev
-        prefer_relative_imports: true
-        prefer_single_quotes: true
-        omit_local_variable_types: true
-        unawaited_futures: true
-        
-        # experimental
-        # require_trailing_comma: true
-        # experimental
-        # avoid_dynamic_calls: true
-
-    analyzer:
-      # autogenerated files
-      exclude:
-        - "**/*.g.dart"
-        - "**/*.freezed.dart"
-      
-      # possible options:
-      # ignore, info, warning, error
-      errors:
-        must_be_immutable: error
-        missing_required_param: error
-        missing_return: error
-        avoid_void_async: error
-        invalid_use_of_protected_member: error    
-        unawaited_futures: error
-        avoid_unnecessary_containers: warning
-        parameter_assignments: warning
-    ```
+See  `analysis_options.yaml` file.
 
 # Tests
 
@@ -467,17 +515,8 @@ See `.gitignore` file.
 # Philosophies
 
 1. "Keep it simple" - **KIS**
-
-    Simplicity should be a key goal in design, and unnecessary complexity should be avoided.
-
 2. "Don't repeat yourself" - **DRY**
-
-    Aimed at reducing repetition of software patterns (Refactor your code).
-
 3. "You are not gonna need it" - **YAGNI**
-
-    Don't add functionality until it’s deemed necessary.
-
 4. We don’t make things easy to do, we make things easy to understand.  [5 - Bill Kennedy]
 5. You write things in the concrete first, then you ask: "Does that require an abstraction layer?” [5]
 6. Don't do something for the sake of doing it. [5]
