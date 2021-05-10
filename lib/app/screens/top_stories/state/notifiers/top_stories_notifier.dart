@@ -19,7 +19,7 @@ class TopStoriesNotifier extends StateNotifier<TopStoriesStateModel> {
 
     final fetched = state.storiesFetched;
     final storiesIds = state.storiesIds;
-    final stories = state.stories;
+    final stories = List<StoryModel>.from(state.stories);
 
     for (var i = fetched; i < fetched + amount; i++) {
       if (i >= storiesIds.length) {
