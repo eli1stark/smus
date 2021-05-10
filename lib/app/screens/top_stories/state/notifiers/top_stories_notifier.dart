@@ -7,7 +7,7 @@ import '../../model/top_stories_state_model.dart';
 class TopStoriesNotifier extends StateNotifier<TopStoriesStateModel> {
   TopStoriesNotifier()
       : super(
-          TopStoriesStateModel(
+          const TopStoriesStateModel(
             storiesFetched: 0,
             storiesIds: [],
             stories: [],
