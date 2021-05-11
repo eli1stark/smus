@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'experiments/state/providers/post_fpod.dart';
 import 'experiments/state/providers/post_notipod.dart';
-import 'experiments/state/repositories/post_frep.dart';
 
 class NewStories extends HookWidget {
   const NewStories({
@@ -12,14 +12,14 @@ class NewStories extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final frep = useProvider(postFrepWithNotifier);
+    final fpod = useProvider(postFpod);
     final state = useProvider(postNotipod);
     final notifier = useProvider(postNotipod.notifier);
 
     return Center(
       child: Column(
         children: [
-          frep.when(
+          fpod.when(
             data: (_) {
               final posts = <Widget>[];
 
@@ -37,7 +37,7 @@ class NewStories extends HookWidget {
               return Column(
                 children: [
                   ...posts,
-                  state.fetchStatus.when(
+                  state.union.when(
                     success: () => const SizedBox(),
                     loading: () => const CircularProgressIndicator(),
                     error: (e, st) {
@@ -67,7 +67,7 @@ class NewStories extends HookWidget {
           ),
           TextButton(
             onPressed: () {
-              context.refresh(postFrepWithNotifier);
+              context.refresh(postFpod);
             },
             child: const Text('refresh'),
           ),
