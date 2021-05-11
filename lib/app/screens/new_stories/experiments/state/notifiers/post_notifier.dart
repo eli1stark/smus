@@ -9,7 +9,7 @@ class PostNotifier extends StateNotifier<PostsStateModel> {
       : super(
           const PostsStateModel(
             posts: [],
-            fetchStatus: PostsFetchStatus.success(),
+            fetchStatus: Success(),
           ),
         );
 
@@ -18,7 +18,7 @@ class PostNotifier extends StateNotifier<PostsStateModel> {
 
     state = PostsStateModel(
       posts: [result],
-      fetchStatus: const PostsFetchStatus.success(),
+      fetchStatus: const Success(),
     );
   }
 
@@ -26,7 +26,7 @@ class PostNotifier extends StateNotifier<PostsStateModel> {
     final posts = List<PostModel>.from(state.posts);
 
     state = state.copyWith(
-      fetchStatus: const PostsFetchStatus.loading(),
+      fetchStatus: const Loading(),
     );
 
     try {
@@ -34,13 +34,19 @@ class PostNotifier extends StateNotifier<PostsStateModel> {
 
       posts.add(result);
 
-      state = PostsStateModel(
-        posts: posts,
-        fetchStatus: const PostsFetchStatus.success(),
-      );
+      if (posts.length > 5) {
+        state = state.copyWith(
+          fetchStatus: const NothingToLoad(),
+        );
+      } else {
+        state = PostsStateModel(
+          posts: posts,
+          fetchStatus: const Success(),
+        );
+      }
     } catch (e, st) {
       state = state.copyWith(
-        fetchStatus: PostsFetchStatus.error(e, st),
+        fetchStatus: Error(e, st),
       );
     }
   }

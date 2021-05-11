@@ -14,11 +14,11 @@ class PostsStateModel with _$PostsStateModel {
 
 @freezed
 class PostsFetchStatus with _$PostsFetchStatus {
-  const factory PostsFetchStatus.success() = _Success;
-  const factory PostsFetchStatus.loading() = _Loading;
+  const factory PostsFetchStatus.success() = Success;
+  const factory PostsFetchStatus.loading() = Loading;
   const factory PostsFetchStatus.error(
     Object error, [
     StackTrace? stackTrace,
-  ]) = _Error;
-  const factory PostsFetchStatus.nothingToLoad() = _NothingToLoad;
+  ]) = Error;
+  const factory PostsFetchStatus.nothingToLoad() = NothingToLoad;
 }
