@@ -491,6 +491,8 @@ class Home extends StatelessWidget {}
 // We need our code to be maximum descriptive, so, the only compromise we made is naming of our state layer
 
 // State
+class HomeState {}
+class HomeUnion {}
 class HomeNotifier extends StateNotifier<HomeModel> {}
 // Naming of repositories and providers discussed in the "state" part of the docs.
 ```
