@@ -456,7 +456,7 @@ class MyScreenDescriptionImage extends StatelessWidget {
         2. Naming of components is up to you.
     * There is some ambiguity between repositories and future/stream providers. 
       Repositories are future/stream providers that are working with repositories from our source layer.
-      But if we think about it almost in 90% of cases the only reaseon why we need to use future/stream providers is to access repoistory from the source layer.
+      But if we think about it almost in 90% of cases the only reason why we need to use future/stream providers is to access repoistory from the source layer.
       So, if that's the case do we need to complicate things and create another sublayer for those kind of things?
       Probably it will better if we'll use just future/stream providers (aka fpod and spod) for this kind of things.
       So at the end we have just 2 sublayers: notifiers and providers.
