@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+class ShowStoriesDependencies {
+  
+}
+
 class ShowStories extends StatelessWidget {
   const ShowStories({
     Key? key,
