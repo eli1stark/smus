@@ -409,7 +409,12 @@ class MyScreenDescriptionImage extends StatelessWidget {
         |   |       └── feature_service.dart  # acts like facade for other services
         |   ├── state
         |   |   ├── notifiers
-        |   |   |   ├── some_notifier.dart
+        |   |   |   ├── some_notifier
+        |   |   |   |   ├── state # can be optional if you are using model
+        |   |   |   |   |   └── some_notifier_state.dart
+        |   |   |   |   ├── union # optional, use only if you need 
+        |   |   |   |   |   └── some_notifier_union.dart
+        |   |   |   |   └── some_notifier.dart 
         |   |   |   └── some_other_notifier.dart  
         |   |   ├── providers
         |   |   |   ├── some_fpod.dart 
@@ -417,7 +422,7 @@ class MyScreenDescriptionImage extends StatelessWidget {
         |   |   |   ├── some_pod.dart 
         |   |   |   ├── some_spod.dart 
         |   |   |   └── some_stpod.dart  
-        |   |   └── repositories
+        |   |   └── repositories # under question (see below)
         |   |       ├── some_frep.dart 
         |   |       └── some_srep.dart 
         |   └── ui
@@ -449,6 +454,12 @@ class MyScreenDescriptionImage extends StatelessWidget {
            In our case we have subfeature(complex component) called "some_complex_component" which has folder `components` and dart file named by itself.
            Single dart file is considered as component. (e.g. `some_part.dart`)
         2. Naming of components is up to you.
+    * There is some ambiguity between repositories and future/stream providers. 
+      Repositories are future/stream providers that are working with repositories from our source layer.
+      But if we think about it almost in 90% of cases the only reason why we need to use future/stream providers is to access repoistory from the source layer.
+      So, if that's the case do we need to complicate things and create another sublayer for those kind of things?
+      Probably it will better if we'll use just future/stream providers (aka fpod and spod) for this kind of things.
+      So at the end we have just 2 sublayers: notifiers and providers.
 
 # Rules
 
@@ -480,6 +491,8 @@ class Home extends StatelessWidget {}
 // We need our code to be maximum descriptive, so, the only compromise we made is naming of our state layer
 
 // State
+class HomeState {}
+class HomeUnion {}
 class HomeNotifier extends StateNotifier<HomeModel> {}
 // Naming of repositories and providers discussed in the "state" part of the docs.
 ```
