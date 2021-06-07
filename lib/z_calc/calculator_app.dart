@@ -13,10 +13,10 @@ enum Operation {
 void main() => runApp(CalculatorApp());
 
 class CalculatorApp extends StatelessWidget {
+  final calculator = Calculator();
+
   @override
   Widget build(BuildContext context) {
-    final calculator = Calculator();
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -27,7 +27,7 @@ class CalculatorApp extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
-                NumberGen(),
+                // NumberGen(),
                 // PowerOfTwo(calculator),
                 TwoDigitOperation(
                   calculator: calculator,
@@ -167,10 +167,10 @@ class PowerOfTwo extends HookWidget {
 }
 
 class NumberGen extends StatelessWidget {
+  final generator = NumberGenerator();
+
   @override
   Widget build(BuildContext context) {
-    final generator = NumberGenerator();
-    
     return StreamBuilder<int>(
       stream: generator.countStream(10),
       builder: (context, snapshot) {
