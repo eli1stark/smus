@@ -41,8 +41,8 @@ workflows:
         name: Run tests
         script: flutter test --update-goldens
       - &build-android
-        name: Build appbudle
-        script: flutter build appbundle
+        name: Build APK
+        script: flutter build apk
 
     artifacts:
       - build/**/outputs/**/*.aab
