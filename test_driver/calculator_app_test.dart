@@ -42,6 +42,7 @@ extension on FlutterDriver {
     final file = await filePath.create(recursive: true);
     final png = await screenshot();
     file.writeAsBytesSync(png);
+    // ignore: avoid_print
     print('screenshot with name $name was taken');
   }
 }

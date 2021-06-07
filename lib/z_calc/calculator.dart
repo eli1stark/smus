@@ -45,6 +45,7 @@ class NumberGenerator {
     for (var i = 1; i <= n; i++) {
       // dummy delay - this could be a network request
       await Future.delayed(const Duration(seconds: 1));
+      // ignore: avoid_print
       print(i);
       yield i;
     }

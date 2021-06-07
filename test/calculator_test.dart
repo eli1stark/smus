@@ -9,11 +9,15 @@ void main() {
 
   // helper functions
   setUp(() {
+    // ignore: avoid_print
     print('run before each test is run');
     calculator = Calculator();
   });
+  // ignore: avoid_print
   setUpAll(() => print('run once before all tests'));
+  // ignore: avoid_print
   tearDown(() => print('run after each test is run'));
+  // ignore: avoid_print
   tearDownAll(() => print('run once after all tests'));
 
   // We can group our tests

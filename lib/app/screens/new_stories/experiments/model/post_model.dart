@@ -75,5 +75,6 @@ void intro() {
     number: 5,
   );
 
+  // ignore: avoid_print
   print(model1 == model2);
 }
