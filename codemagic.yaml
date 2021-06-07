@@ -46,11 +46,12 @@ workflows:
 
     artifacts:
       - build/**/outputs/**/*.aab
+      - build/**/outputs/**/*.apk
     
     publishing:
-      # email:
-      #   recipients:
-      #     - name@example.com
+      email:
+        recipients:
+          - elistark.tech@gmail.com
       scripts:
         - echo 'Post-publish script'
 
