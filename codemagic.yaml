@@ -1,3 +1,4 @@
+  
 workflows:
   development-workflow:
     name: Development Workflow
@@ -14,12 +15,13 @@ workflows:
         - ~/.pub-cache
 
     triggering:
-      events:
-        - push
       branch_patterns:
-        - pattern: '*'
+        - pattern: 'master'
           include: true
-          source: true
+          source: false
+        - pattern: 'develop'
+          include: true
+          source: false
       cancel_previous_builds: false
 
     scripts:
@@ -42,6 +44,8 @@ workflows:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/*.apk
       - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
     
     publishing:
       email:
@@ -50,6 +54,7 @@ workflows:
         notify:
           success: true
           failure: false
-
+      
       scripts:
-        - echo 'Published Succesfully!'
+        - name: Post-publish script
+          script: echo 'Published Succesfully!'

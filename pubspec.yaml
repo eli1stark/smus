@@ -43,9 +43,9 @@ dependencies:
   mocktail: ^0.1.2
 
   # FIREBASE: 
-  # firebase_core: ^1.0.4 # enabling connecting to multiple Firebase apps
-  # firebase_auth: ^1.1.1 # enabling Android and iOS authentication
-  # cloud_firestore: ^1.0.6 # cloud-hosted, noSQL database with live synchronization and offline support
+  firebase_core: ^1.0.4 # enabling connecting to multiple Firebase apps
+  firebase_auth: ^1.1.1 # enabling Android and iOS authentication
+  cloud_firestore: ^1.0.6 # cloud-hosted, noSQL database with live synchronization and offline support
 
   # OTHER:
   freezed_annotation: ^0.14.1 # Annotations for the freezed
